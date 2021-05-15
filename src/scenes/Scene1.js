@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Zombie from './zombie';
 let house;
 class Scene1 extends Phaser.Scene {
   constructor() {
@@ -16,10 +17,8 @@ class Scene1 extends Phaser.Scene {
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
     house = this.physics.add.image(400, 600, 'house').setScale(0.7);
-
     house.setImmovable(true);
     
-    // this.player = this.add.rectangle(200,200,20,20, 0x000);
     this.player = this.add.circle(200, 200, 20, 0x000);
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
@@ -30,14 +29,14 @@ class Scene1 extends Phaser.Scene {
     this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.spawnNewWave();
   }
-
   update(delta) {
     let xVelocity = 0;
     let yVelocity = 0;
 
     if (this.key_D.isDown) {
-    xVelocity += 1;
+      xVelocity += 1;
     }
     if (this.key_A.isDown) {
       xVelocity += -1;
@@ -48,6 +47,10 @@ class Scene1 extends Phaser.Scene {
     if (this.key_S.isDown) {
       yVelocity += 1;
     }
+    if (yVelocity !== 0 && xVelocity !== 0) {
+      yVelocity /= 1.33;
+      xVelocity /= 1.33;
+    }
 
     // Adds velocity to player
     this.player.body.setVelocity(xVelocity*this.speed, yVelocity*this.speed);
@@ -57,6 +60,22 @@ class Scene1 extends Phaser.Scene {
       let angle = Phaser.Math.Angle.Between(this.player.x, this.player.y, cursor.x + this.cameras.main.scrollX, cursor.y + this.cameras.main.scrollY)
       this.player.rotation = angle;
     }, this);
+
+    if (this.zombiesLeft <= 0) 
+      this.spawnNewWave();
+
+    this.zombies.forEach(zombie => {
+      zombie.update();
+    });
+  }
+
+  spawnNewWave() {
+    this.zombies = [];
+    for (let i = 0; i < 30; i++) {
+      this.newZombie = new Zombie(this, house);
+      this.zombies.push(this.newZombie);
+      this.zombiesLeft = 30;
+    }
   }
 }
 
