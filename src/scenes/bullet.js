@@ -1,5 +1,5 @@
 class Bullet extends Phaser.GameObjects.Sprite {
-  constructor(scene, pointer, rotation, house) {
+  constructor(scene, pointer, rotation, house, zombies) {
     let x = scene.player.x;
     let y = scene.player.y;
     super(scene, x, y, 'bullet');
@@ -11,11 +11,18 @@ class Bullet extends Phaser.GameObjects.Sprite {
     });
     scene.bullets.add(this);
     scene.physics.moveToObject(this.bullet, pointer, 400);
+
+    zombies.forEach((zombie) => {
+      scene.physics.add.collider(this.bullet, zombie.zombie, () => {
+        this.bullet.destroy();
+        zombie.takeDamage(1);
+      });
+    });
   }
 
   update() {
-    if (this.y < 32) {
-      this.destroy();
+    if (this.bullet.y < 0 || this.bullet.y > 600 ) {
+      this.bullet.destroy();
     }
   }
 }

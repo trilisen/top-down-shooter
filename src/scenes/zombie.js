@@ -1,38 +1,26 @@
 class Zombie {
-  constructor(_scene, house, bullets) {
+  constructor(scene, house) {
     this.atHouse = false;
-    this.scene = _scene;
+    this.scene = scene;
     this.house = house;
+    this.health = 2;
     const xPos = Math.floor(Math.random() * 1200) - 120;
     const yPos = -Math.floor(Math.random() * 300) - 25;
     this.zombie = this.scene.add.circle(xPos, yPos, 20, 0x06401e);
     this.scene.physics.add.existing(this.zombie);
-    this.scene.physics.add.collider(this.house, this.zombie);
-    this.scene.physics.add.collider(this, bullets, (bullet) => {
-      console.log('hej');
-      bullet.destroy();
-      this.die();
+    this.scene.physics.add.collider(this.house, this.zombie, () => {
+      this.atHouse = true;
     });
     this.dead = false;
   }
   update() {
+    if (this.dead)
+      return;
     if (!this.atHouse) {
-      this.scene.physics.moveToObject(this.zombie, this.house, 35);
-
-      this.isColliding = this.zombie.body.touching;
-      if (
-        this.isColliding.down ||
-        this.isColliding.right ||
-        this.isColliding.left ||
-        this.isColliding.up
-      ) {
-        this.atHouse = true;
-        this.zombie.body.setVelocity(0, 0);
-      }
+      this.scene.physics.moveToObject(this.zombie, this.house, 15);
     } else {
       // Damage House
 
-      this.die(); // Remove later!
     }
   }
   die() {
@@ -40,6 +28,11 @@ class Zombie {
     this.scene.zombiesLeft--;
     this.zombie.destroy();
     this.dead = true;
+  }
+  takeDamage(damage) {
+    this.health -= damage;
+    if (this.health <= 0)
+      this.die();
   }
 }
 

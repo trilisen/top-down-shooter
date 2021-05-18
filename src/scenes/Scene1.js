@@ -28,7 +28,6 @@ class Scene1 extends Phaser.Scene {
     this.physics.add.collider(house, this.player);
 
     this.bullets = this.add.group();
-    // this.zombies = this.add.group();
 
     this.input.on(
       'pointerdown',
@@ -44,12 +43,6 @@ class Scene1 extends Phaser.Scene {
     this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.key_K = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
     this.spawnNewWave();
-
-    // this.physics.add.collider(this.bullets, this.zombies, (bullet, zombie) => {
-    //   console.log('hej');
-    //   bullet.destroy();
-    //   zombie.die();
-    // });
   }
   update(delta) {
     let xVelocity = 0;
@@ -120,7 +113,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(this, pointer, this.player.rotation, house);
+    this.bullet = new Bullet(this, pointer, this.player.rotation, house, this.zombies);
   }
 }
 
