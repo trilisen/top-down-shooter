@@ -45,8 +45,6 @@ class Scene1 extends Phaser.Scene {
     this.key_K = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
     this.spawnNewWave();
 
-    console.log(this.zombies);
-    console.log(this.bullets);
     // this.physics.add.collider(this.bullets, this.zombies, (bullet, zombie) => {
     //   console.log('hej');
     //   bullet.destroy();
@@ -115,7 +113,6 @@ class Scene1 extends Phaser.Scene {
     this.zombies = [];
     for (let i = 0; i < 30; i++) {
       this.newZombie = new Zombie(this, house, this.bullets);
-      console.log(this.newZombie);
       this.zombies.push(this.newZombie);
       // this.zombies.add(this.newZombie);
     }
@@ -123,7 +120,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(this, pointer);
+    this.bullet = new Bullet(this, pointer, this.player.rotation, house);
   }
 }
 
