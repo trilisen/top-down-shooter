@@ -1,15 +1,18 @@
 class Zombie {
-  constructor(scene, house) {
+  constructor(scene, house, speed, size, health, color) {
     this.atHouse = false;
     this.scene = scene;
     this.house = house;
-    this.health = 2;
+    this.health = health;
+    this.speed = speed;
+
     const xPos = Math.floor(Math.random() * 1200) - 120;
     const yPos = -Math.floor(Math.random() * 300) - 25;
-    this.zombie = this.scene.add.circle(xPos, yPos, 20, 0x06401e);
+    this.zombie = this.scene.add.circle(xPos, yPos, 20, color).setScale(size);
     this.scene.physics.add.existing(this.zombie);
     this.scene.physics.add.collider(this.house, this.zombie, () => {
       this.atHouse = true;
+      this.zombie.body.setVelocity(0,0);
     });
     this.dead = false;
   }
@@ -17,7 +20,7 @@ class Zombie {
     if (this.dead)
       return;
     if (!this.atHouse) {
-      this.scene.physics.moveToObject(this.zombie, this.house, 15);
+      this.scene.physics.moveToObject(this.zombie, this.house, this.speed);
     } else {
       // Damage House
 
