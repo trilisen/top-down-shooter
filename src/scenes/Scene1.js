@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import Zombie from './zombie';
 import Bullet from './bullet';
 let house;
+let currentWave = 0;
+let lastWaveAmount = 4;
 class Scene1 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene1' });
@@ -15,6 +17,8 @@ class Scene1 extends Phaser.Scene {
   }
 
   create() {
+    
+
     this.speed = 250;
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
@@ -34,7 +38,6 @@ class Scene1 extends Phaser.Scene {
     this.physics.add.collider(this.player, house);
 
     this.bullets = this.add.group();
-    // this.zombies = this.add.group();
 
     this.input.on(
       'pointerdown',
@@ -50,16 +53,10 @@ class Scene1 extends Phaser.Scene {
     this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.key_K = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
     this.spawnNewWave();
-
-    console.log(this.zombies);
-    console.log(this.bullets);
-    // this.physics.add.collider(this.bullets, this.zombies, (bullet, zombie) => {
-    //   console.log('hej');
-    //   bullet.destroy();
-    //   zombie.die();
-    // });
+    this.waveText = this.add.text(0, 575, 'Wave: 1').setScale(2);
   }
   update(delta) {
+    this.waveText.text = `Wave: ${currentWave}`;
     let xVelocity = 0;
     let yVelocity = 0;
 
@@ -118,18 +115,48 @@ class Scene1 extends Phaser.Scene {
   }
 
   spawnNewWave() {
+    currentWave++;
+
+    let waveAmount = lastWaveAmount*1.2;
+    let wave = Math.floor(waveAmount);
+    
     this.zombies = [];
-    for (let i = 0; i < 30; i++) {
-      this.newZombie = new Zombie(this, house, this.bullets);
-      console.log(this.newZombie);
+    for (let i = 0; i < wave; i++) {
+
+      let color = 0x17611a;
+      let size = 1;
+      let health = 3;
+      let speed = 35;
+      
+      if (Number.isInteger(i/5) && i !== 0)
+      {
+        color = 0x104212;
+        size *= 2;
+        health *=2;
+        speed *=.75;
+      }
+      else if (Number.isInteger(i/8) && i !== 0)
+      {
+        color = 0x1d7821;
+        speed *= 5; 
+        health *= .5;
+      }
+      else if (Number.isInteger(i/14) && i !== 0)
+      {
+        color = 0x1d7821;
+        size *= 3; 
+        health *= 5;
+      }
+
+      this.newZombie = new Zombie(this, house, speed, size, health, color);
       this.zombies.push(this.newZombie);
-      // this.zombies.add(this.newZombie);
     }
-    this.zombiesLeft = 30;
+    this.zombiesLeft = wave;
+    lastWaveAmount = waveAmount;
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(this, pointer);
+    this.bullet = new Bullet(this, pointer, this.player.rotation, house, this.zombies);
   }
 }
 
