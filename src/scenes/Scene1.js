@@ -17,8 +17,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   create() {
-    
-
+    this.score = 0;
     this.speed = 250;
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
@@ -54,9 +53,12 @@ class Scene1 extends Phaser.Scene {
     this.key_K = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
     this.spawnNewWave();
     this.waveText = this.add.text(0, 575, 'Wave: 1').setScale(2);
+    this.scoreText = this.add.text(0, 0).setScale(1.5);
   }
   update(delta) {
     this.waveText.text = `Wave: ${currentWave}`;
+    this.scoreText.text = `Money: ${this.score}`;
+
     let xVelocity = 0;
     let yVelocity = 0;
 
@@ -117,34 +119,28 @@ class Scene1 extends Phaser.Scene {
   spawnNewWave() {
     currentWave++;
 
-    let waveAmount = lastWaveAmount*1.2;
+    let waveAmount = lastWaveAmount * 1.2;
     let wave = Math.floor(waveAmount);
-    
+
     this.zombies = [];
     for (let i = 0; i < wave; i++) {
-
       let color = 0x17611a;
       let size = 1;
       let health = 3;
       let speed = 35;
-      
-      if (Number.isInteger(i/5) && i !== 0)
-      {
+
+      if (Number.isInteger(i / 5) && i !== 0) {
         color = 0x104212;
         size *= 2;
-        health *=2;
-        speed *=.75;
-      }
-      else if (Number.isInteger(i/8) && i !== 0)
-      {
+        health *= 2;
+        speed *= 0.75;
+      } else if (Number.isInteger(i / 8) && i !== 0) {
         color = 0x1d7821;
-        speed *= 5; 
-        health *= .5;
-      }
-      else if (Number.isInteger(i/14) && i !== 0)
-      {
+        speed *= 5;
+        health *= 0.5;
+      } else if (Number.isInteger(i / 14) && i !== 0) {
         color = 0x1d7821;
-        size *= 3; 
+        size *= 3;
         health *= 5;
       }
 
@@ -156,7 +152,13 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(this, pointer, this.player.rotation, house, this.zombies);
+    this.bullet = new Bullet(
+      this,
+      pointer,
+      this.player.rotation,
+      house,
+      this.zombies
+    );
   }
 }
 

@@ -12,18 +12,16 @@ class Zombie {
     this.scene.physics.add.existing(this.zombie);
     this.scene.physics.add.collider(this.house, this.zombie, () => {
       this.atHouse = true;
-      this.zombie.body.setVelocity(0,0);
+      this.zombie.body.setVelocity(0, 0);
     });
     this.dead = false;
   }
   update() {
-    if (this.dead)
-      return;
+    if (this.dead) return;
     if (!this.atHouse) {
       this.scene.physics.moveToObject(this.zombie, this.house, this.speed);
     } else {
       // Damage House
-
     }
   }
   die() {
@@ -34,8 +32,10 @@ class Zombie {
   }
   takeDamage(damage) {
     this.health -= damage;
-    if (this.health <= 0)
+    if (this.health <= 0) {
+      this.scene.score += 100;
       this.die();
+    }
   }
 }
 
