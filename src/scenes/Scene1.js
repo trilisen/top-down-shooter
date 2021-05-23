@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Zombie from './zombie';
 import Bullet from './bullet';
+import House from './house';
 let house;
 let currentWave = 0;
 let lastWaveAmount = 4;
@@ -18,23 +19,21 @@ class Scene1 extends Phaser.Scene {
 
   create() {
     this.score = 0;
+
+    this.gameOver = false;
     this.speed = 250;
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
-    house = this.physics.add.image(400, 600, 'house').setScale(0.7);
-    house.setImmovable(true);
+    // house = this.physics.add.image(400, 600, 'house').setScale(0.7);
+    //
+
+    house = new House(this, 'house', this.player);
 
     this.player = this.add.circle(200, 200, 20, 0x000);
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
-    this.physics.add.existing(this.player, true);
-
-    // this.player.body.setVelocity(130, 130);
-    // this.player.body.setBounce(1, 1);
-    // this.player.body.setCollideWorldBounds(true);
-
-    this.physics.add.collider(this.player, house);
+    this.physics.add.collider(house.house, this.player);
 
     this.bullets = this.add.group();
 
@@ -53,9 +52,25 @@ class Scene1 extends Phaser.Scene {
     this.key_K = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
     this.spawnNewWave();
     this.waveText = this.add.text(0, 575, 'Wave: 1').setScale(2);
-    this.scoreText = this.add.text(0, 0).setScale(1.5);
+
+    this.gameOverText = this.add
+      .text(250, 250, 'GAME OVER')
+      .setScale(4)
+      .setVisible(false);
+    this.scoreText = this.add
+      .text(250, 300, '')
+      .setScale(1.75)
+      .setVisible(false);
   }
   update(delta) {
+    if (this.gameOver) {
+      this.player.body.setVelocity(0, 0);
+
+      this.gameOverText.setVisible(true);
+      this.scoreText.setVisible(true);
+      this.scoreText.text = `You made it to Wave: ${currentWave}`;
+      return;
+    }
     this.waveText.text = `Wave: ${currentWave}`;
     this.scoreText.text = `Money: ${this.score}`;
 
@@ -105,10 +120,6 @@ class Scene1 extends Phaser.Scene {
     this.zombies.forEach((zombie) => {
       zombie.update();
     });
-    // for (let i = 0; i < this.zombies.getChildren().length; i++) {
-    //   let zombie = this.zombies.getChildren()[i];
-    //   zombie.update();
-    // }
 
     for (let i = 0; i < this.bullets.getChildren().length; i++) {
       let bullet = this.bullets.getChildren()[i];
@@ -129,6 +140,7 @@ class Scene1 extends Phaser.Scene {
       let health = 3;
       let speed = 35;
 
+      // Different types of zombies
       if (Number.isInteger(i / 5) && i !== 0) {
         color = 0x104212;
         size *= 2;
@@ -156,7 +168,7 @@ class Scene1 extends Phaser.Scene {
       this,
       pointer,
       this.player.rotation,
-      house,
+      house.house,
       this.zombies
     );
   }
