@@ -57,18 +57,19 @@ class Scene1 extends Phaser.Scene {
       .text(250, 250, 'GAME OVER')
       .setScale(4)
       .setVisible(false);
-    this.scoreText = this.add
-      .text(250, 300, '')
+    this.endScoreText = this.add
+      .text(250, 300)
       .setScale(1.75)
       .setVisible(false);
+    this.scoreText = this.add.text(0, 0).setScale(1.75);
   }
   update(delta) {
     if (this.gameOver) {
       this.player.body.setVelocity(0, 0);
 
       this.gameOverText.setVisible(true);
-      this.scoreText.setVisible(true);
-      this.scoreText.text = `You made it to Wave: ${currentWave}`;
+      this.endScoreText.setVisible(true);
+      this.endScoreText.text = `You made it to Wave: ${currentWave}`;
       return;
     }
     this.waveText.text = `Wave: ${currentWave}`;
