@@ -11,20 +11,21 @@ class Scene1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('ground', '/src/assets/Ground_01.png');
-    this.load.image('background', '/src/assets/Grass_03.png');
-    this.load.image('house', '/src/assets/crate0_diffuse.png');
-    this.load.image('bullet', '/src/assets/bullet.png');
+    this.load.image('ground', 'assets/Ground_01.png');
+    this.load.image('background', 'assets/Grass_03.png');
+    this.load.image('house', 'assets/crate0_diffuse.png');
+    this.load.image('bullet', 'assets/bullet.png');
   }
 
   create() {
-    
+    this.score = 0;
+
     this.gameOver = false;
     this.speed = 250;
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
     // house = this.physics.add.image(400, 600, 'house').setScale(0.7);
-    // 
+    //
 
     house = new House(this, 'house', this.player);
 
@@ -52,19 +53,28 @@ class Scene1 extends Phaser.Scene {
     this.spawnNewWave();
     this.waveText = this.add.text(0, 575, 'Wave: 1').setScale(2);
 
-    this.gameOverText = this.add.text(250, 250, 'GAME OVER').setScale(4).setVisible(false);
-    this.scoreText = this.add.text(250, 300, '').setScale(1.75).setVisible(false);
+    this.gameOverText = this.add
+      .text(250, 250, 'GAME OVER')
+      .setScale(4)
+      .setVisible(false);
+    this.endScoreText = this.add
+      .text(250, 300)
+      .setScale(1.75)
+      .setVisible(false);
+    this.scoreText = this.add.text(0, 0).setScale(1.75);
   }
   update(delta) {
     if (this.gameOver) {
-      this.player.body.setVelocity(0,0);
+      this.player.body.setVelocity(0, 0);
 
       this.gameOverText.setVisible(true);
-      this.scoreText.setVisible(true);
-      this.scoreText.text = `You made it to Wave: ${currentWave}`;
+      this.endScoreText.setVisible(true);
+      this.endScoreText.text = `You made it to Wave: ${currentWave}`;
       return;
     }
     this.waveText.text = `Wave: ${currentWave}`;
+    this.scoreText.text = `Money: ${this.score}`;
+
     let xVelocity = 0;
     let yVelocity = 0;
 
@@ -121,35 +131,29 @@ class Scene1 extends Phaser.Scene {
   spawnNewWave() {
     currentWave++;
 
-    let waveAmount = lastWaveAmount*1.2;
+    let waveAmount = lastWaveAmount * 1.2;
     let wave = Math.floor(waveAmount);
-    
+
     this.zombies = [];
     for (let i = 0; i < wave; i++) {
-
       let color = 0x17611a;
       let size = 1;
       let health = 3;
       let speed = 35;
-      
+
       // Different types of zombies
-      if (Number.isInteger(i/5) && i !== 0)
-      {
+      if (Number.isInteger(i / 5) && i !== 0) {
         color = 0x104212;
         size *= 2;
-        health *=2;
-        speed *=.75;
-      }
-      else if (Number.isInteger(i/8) && i !== 0)
-      {
+        health *= 2;
+        speed *= 0.75;
+      } else if (Number.isInteger(i / 8) && i !== 0) {
         color = 0x1d7821;
-        speed *= 5; 
-        health *= .5;
-      }
-      else if (Number.isInteger(i/14) && i !== 0)
-      {
+        speed *= 5;
+        health *= 0.5;
+      } else if (Number.isInteger(i / 14) && i !== 0) {
         color = 0x1d7821;
-        size *= 3; 
+        size *= 3;
         health *= 5;
       }
 
@@ -161,7 +165,13 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(this, pointer, this.player.rotation, house.house, this.zombies);
+    this.bullet = new Bullet(
+      this,
+      pointer,
+      this.player.rotation,
+      house.house,
+      this.zombies
+    );
   }
 }
 
