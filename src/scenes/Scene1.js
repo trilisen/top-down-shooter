@@ -15,6 +15,8 @@ class Scene1 extends Phaser.Scene {
     this.load.image('background', 'assets/Grass_03.png');
     this.load.image('house', 'assets/crate0_diffuse.png');
     this.load.image('bullet', 'assets/bullet.png');
+    this.load.image('wall', 'assets/wall.jpg');
+    this.load.image('floor', 'assets/floor.jpg');
   }
 
   create() {
@@ -24,10 +26,7 @@ class Scene1 extends Phaser.Scene {
     this.speed = 250;
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
-    // house = this.physics.add.image(400, 600, 'house').setScale(0.7);
-    //
-
-    house = new House(this, 'house', this.player);
+    house = new House(this, 'floor', 'wall');
 
     this.player = this.add.circle(200, 200, 20, 0x000);
     this.physics.add.existing(this.player);
@@ -153,7 +152,7 @@ class Scene1 extends Phaser.Scene {
         health *= 0.5;
       } else if (Number.isInteger(i / 14) && i !== 0) {
         color = 0x1d7821;
-        size *= 3;
+        size *= 2.5;
         health *= 5;
       }
 
