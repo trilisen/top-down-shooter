@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack/prod.js ",
-    "start": "webpack-dev-server --config webpack/base.js --open"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -20,7 +21,8 @@
   },
   "dependencies": {
     "phaser": "^3.54.0",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "vite": "^2.3.3"
   },
   "prettier": {
     "singleQuote": true
