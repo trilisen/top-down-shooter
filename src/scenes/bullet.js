@@ -1,11 +1,11 @@
 class Bullet extends Phaser.GameObjects.Sprite {
-  constructor(scene, pointer, rotation, house, zombies) {
+  constructor(scene, pointer, rotation, house, zombies, currentGun) {
     let x = scene.player.x;
     let y = scene.player.y;
     super(scene, x, y, 'bullet');
     this.bullet = scene.physics.add.sprite(x, y, 'bullet');
     this.bullet.rotation = rotation;
-    
+
     scene.physics.add.collider(this.bullet, house, () => {
       this.bullet.destroy();
     });
@@ -21,7 +21,7 @@ class Bullet extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    if (this.bullet.y < 0 || this.bullet.y > 600 ) {
+    if (this.bullet.y < 0 || this.bullet.y > 600) {
       this.bullet.destroy();
     }
   }

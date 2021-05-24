@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Zombie from './zombie';
 import Bullet from './bullet';
 import House from './house';
+import Gun from './gun';
 let house;
 let currentWave = 0;
 let lastWaveAmount = 4;
@@ -17,6 +18,8 @@ class Scene1 extends Phaser.Scene {
     this.load.image('bullet', 'assets/bullet.png');
     this.load.image('wall', 'assets/wall.jpg');
     this.load.image('floor', 'assets/floor.jpg');
+    this.load.image('basicGun', 'assets/small_gun.png');
+    this.load.image('shotgun', 'assets/Shotgun.png');
   }
 
   create() {
@@ -24,6 +27,7 @@ class Scene1 extends Phaser.Scene {
 
     this.gameOver = false;
     this.speed = 250;
+
     this.add.tileSprite(400, 300, 800 * 2, 600 * 2, 'background').setScale(0.5);
 
     house = new House(this, 'floor', 'wall');
@@ -33,6 +37,13 @@ class Scene1 extends Phaser.Scene {
     this.player.body.setCollideWorldBounds(true);
 
     this.physics.add.collider(house.house, this.player);
+
+    this.guns = this.add.group();
+
+    this.basicGun = new Gun(this, 1, 400, 300, 270, 430, 'basicGun');
+    this.shotgun = new Gun(this, 0.15, 400, 300, 270, 500, 'shotgun');
+
+    this.currentGun = this.basicGun;
 
     this.bullets = this.add.group();
 
@@ -169,7 +180,8 @@ class Scene1 extends Phaser.Scene {
       pointer,
       this.player.rotation,
       house.house,
-      this.zombies
+      this.zombies,
+      this.currentGun
     );
   }
 }
