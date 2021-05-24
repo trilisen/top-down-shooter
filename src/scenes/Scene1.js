@@ -23,7 +23,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   create() {
-    this.score = 0;
+    this.score = 3000;
 
     this.gameOver = false;
     this.speed = 250;
@@ -40,8 +40,19 @@ class Scene1 extends Phaser.Scene {
 
     this.guns = this.add.group();
 
-    this.basicGun = new Gun(this, 1, 400, 300, 270, 430, 'basicGun');
-    this.shotgun = new Gun(this, 0.15, 400, 300, 270, 500, 'shotgun');
+    this.basicGun = new Gun(this, 1, 400, 300, 1, 270, 430, 'basicGun', 500, 0);
+    this.shotgun = new Gun(
+      this,
+      0.15,
+      400,
+      100,
+      3,
+      270,
+      500,
+      'shotgun',
+      1000,
+      3000
+    );
 
     this.currentGun = this.basicGun;
 
