@@ -11,10 +11,10 @@ class Scene1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('ground', '/src/assets/Ground_01.png');
-    this.load.image('background', '/src/assets/Grass_03.png');
-    this.load.image('house', '/src/assets/crate0_diffuse.png');
-    this.load.image('bullet', '/src/assets/bullet.png');
+    this.load.image('ground', '../src/assets/Ground_01.png');
+    this.load.image('background', '../src/assets/Grass_03.png');
+    this.load.image('house', '../src/assets/crate0_diffuse.png');
+    this.load.image('bullet', '../src/assets/bullet.png');
   }
 
   create() {
