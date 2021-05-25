@@ -22,13 +22,16 @@ class Bullet extends Phaser.GameObjects.Sprite {
     });
 
     // Find a way to make a range for weapons
-    // scene.time.delayedCall(currentGun.range, this.bullet.destroy(), [], this);
   }
 
   update() {
     if (this.bullet.y < 0 || this.bullet.y > 600) {
       this.bullet.destroy();
     }
+  }
+
+  die() {
+    this.bullet.destroy();
   }
 }
 

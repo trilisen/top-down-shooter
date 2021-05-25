@@ -186,14 +186,19 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
-    this.bullet = new Bullet(
-      this,
-      pointer,
-      this.player.rotation,
-      house.house,
-      this.zombies,
-      this.currentGun
-    );
+    setTimeout(() => {
+      this.bullet = new Bullet(
+        this,
+        pointer,
+        this.player.rotation,
+        house.house,
+        this.zombies,
+        this.currentGun
+      );
+      setTimeout(() => {
+        this.bullet.die();
+      }, this.currentGun.range);
+    }, this.currentGun.timeBetweenAttacks);
   }
 }
 
