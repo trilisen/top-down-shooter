@@ -74,6 +74,7 @@ class Scene1 extends Phaser.Scene {
       .setScale(1.75)
       .setVisible(false);
     this.scoreText = this.add.text(0, 0).setScale(1.75);
+    this.currentGunText = this.add.text(0, 30);
   }
   update(delta) {
     if (this.gameOver) {
@@ -86,6 +87,7 @@ class Scene1 extends Phaser.Scene {
     }
     this.waveText.text = `Wave: ${currentWave}`;
     this.scoreText.text = `Money: ${this.score}`;
+    this.currentGunText.text = `Current gun: ${this.currentGun.name}`;
 
     let xVelocity = 0;
     let yVelocity = 0;
@@ -196,7 +198,6 @@ shootBullet(pointer) {
   // setTimeout(() => {
   //   this.bullet.die();
   // }, this.currentGun.range);
-  console
   }
 }
 
