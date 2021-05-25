@@ -43,7 +43,7 @@ class Scene1 extends Phaser.Scene {
 
     this.basicGun = new Gun(this, 1, 400, 1000, 1, 270, 430, 'basicGun', 40, 0);
     this.shotgun = new Gun(this, 0.15, 400, 100, 3, 270, 500, 'shotgun', 20, 3000);
-    this.rifle = new Gun(this, .7, 400, 1000, 1, 505, 430, 'rifle', 10, 8000);
+    this.rifle = new Gun(this, .7, 400, 1000, 3, 505, 430, 'rifle', 10, 8000);
 
     this.currentGun = this.basicGun;
 
