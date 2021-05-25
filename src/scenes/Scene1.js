@@ -208,9 +208,9 @@ shootBullet(pointer) {
     this.zombies,
     this.currentGun
   );
-  setTimeout(() => {
-    this.bullet.die();
-  }, this.currentGun.range);
+  // setTimeout(() => {
+  //   this.bullet.die();
+  // }, this.currentGun.range);
 
   }
 }
