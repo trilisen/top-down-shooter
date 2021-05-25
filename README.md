@@ -25,9 +25,20 @@ Add the installation instructions.
 - https://github.com/trilisen/top-down-shooter/commit/bb322a56b38715a1dfc7b301855575bae5c434cd -Added shooting delay to guns.
 - https://github.com/trilisen/top-down-shooter/commit/1fd3293aaa7fa8134b8c64198ac08f5387efb9c1 -Changes to guns.
 
-# Code Review
+# Code Review by Jonathan Larsson and Agnes Binett
 
-1. `example.js:10-15` - Remember to think about X and this could be refactored using the amazing Y function.
+1. `Scene1.js:198-200` - A block of unused code
+2. `Scene1.js:89` - Delta is declared but never used
+3. `House.js:3` - Unused line of code
+4. `index.html` - This is probably irrelevant, but instead of using flex-box and CSS to position your canvas, you could use Phaser to do it in your index.js-file under scale. (for instance: autoCenter: Phaser.Scale.CENTER_BOTH)
+5. `/webpack` - Since you're already using vite - Do you still need the webpack folder?
+6. `package-lock.json` - There are a lot of dependencies installed (for Babeljs for example), that I don't think you're using.
+7. `Installation` - Running npm install I get 4 high severity vulnerabilities (even after running npm audit fix)
+8. `Game` - Fun and addictive game overall!
+9. `gun.js:27` - Forgotten console.log
+10. `.babelrc` - unused?
+
+Great job guys!
 
 # Testers
 
