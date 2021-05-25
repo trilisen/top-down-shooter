@@ -61,7 +61,12 @@ class Scene1 extends Phaser.Scene {
     this.input.on(
       'pointerdown',
       (pointer) => {
-        this.shootBullet(pointer);
+        this.time.delayedCall(
+          this.currentGun.timeBetweenAttacks,
+          this.shootBullet(pointer),
+          [],
+          this
+        );
       },
       this
     );
@@ -186,19 +191,17 @@ class Scene1 extends Phaser.Scene {
   }
 
   shootBullet(pointer) {
+    this.bullet = new Bullet(
+      this,
+      pointer,
+      this.player.rotation,
+      house.house,
+      this.zombies,
+      this.currentGun
+    );
     setTimeout(() => {
-      this.bullet = new Bullet(
-        this,
-        pointer,
-        this.player.rotation,
-        house.house,
-        this.zombies,
-        this.currentGun
-      );
-      setTimeout(() => {
-        this.bullet.die();
-      }, this.currentGun.range);
-    }, this.currentGun.timeBetweenAttacks);
+      this.bullet.die();
+    }, this.currentGun.range);
   }
 }
 
