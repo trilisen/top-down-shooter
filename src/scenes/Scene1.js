@@ -198,7 +198,10 @@ class Scene1 extends Phaser.Scene {
       setTimeout(() => {
         this.bullet.die();
       }, this.currentGun.range);
-    }, this.currentGun.timeBetweenAttacks);
+    }, this.currentGun.currentTimeBetweenAttacks);
+    if (this.currentGun.timeBetweenAttacks <= 0) {
+      this.currentGun.currentTimeBetweenAttacks = this.currentGun.timeBetweenAttacks;
+    }
   }
 }
 
