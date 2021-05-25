@@ -18,14 +18,23 @@ class Gun extends Phaser.GameObjects.Sprite {
     this.name = name;
     this.timeBetweenAttacks = timeBetweenAttacks;
     this.currentTimeBetweenAttacks = 0;
+    this.unlocked = false;
     scene.guns.add(this);
     this.gun = scene.physics.add.sprite(x, y, name).setScale(size);
-    scene.add.text(x - 20, y + 15, `${name}: ${cost}`).setScale(0.8);
-
+    this.priceText = scene.add
+      .text(x - 20, y + 15, `${name}: ${cost}`)
+      .setScale(0.8);
+    console.log(this.unlocked);
     scene.physics.add.overlap(this.gun, scene.player, () => {
-      if (scene.score >= cost && scene.currentGun.name != this.name) {
-        scene.score -= cost;
-        scene.currentGun = this;
+      if (scene.currentGun.name != this.name) {
+        if (this.unlocked === false && scene.score >= cost) {
+          scene.score -= cost;
+          this.unlocked = true;
+          this.priceText.text = 'Unlocked';
+          scene.currentGun = this;
+        } else if (this.unlocked === true) {
+          scene.currentGun = this;
+        }
       }
     });
   }

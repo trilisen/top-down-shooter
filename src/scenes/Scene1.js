@@ -41,6 +41,7 @@ class Scene1 extends Phaser.Scene {
     this.guns = this.add.group();
 
     this.basicGun = new Gun(this, 1, 400, 1000, 1, 270, 430, 'basicGun', 50, 0);
+
     this.shotgun = new Gun(
       this,
       0.15,
@@ -58,18 +59,14 @@ class Scene1 extends Phaser.Scene {
 
     this.bullets = this.add.group();
 
-   
-    
-    
-    
-      console.log(this.currentGun.currentTimeBetweenAttacks);
-      this.input.on(
-        'pointerdown',
-        (pointer) => {
-          this.shootBullet(pointer);
-        },
-        this
-      );
+    console.log(this.currentGun.currentTimeBetweenAttacks);
+    this.input.on(
+      'pointerdown',
+      (pointer) => {
+        this.shootBullet(pointer);
+      },
+      this
+    );
 
     this.key_W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -88,6 +85,7 @@ class Scene1 extends Phaser.Scene {
       .setScale(1.75)
       .setVisible(false);
     this.scoreText = this.add.text(0, 0).setScale(1.75);
+    this.currentGunText = this.add.text(0, 30);
   }
   update(delta) {
     if (this.gameOver) {
@@ -100,6 +98,7 @@ class Scene1 extends Phaser.Scene {
     }
     this.waveText.text = `Wave: ${currentWave}`;
     this.scoreText.text = `Money: ${this.score}`;
+    this.currentGunText.text = `Current gun: ${this.currentGun.name}`;
 
     let xVelocity = 0;
     let yVelocity = 0;
@@ -154,7 +153,6 @@ class Scene1 extends Phaser.Scene {
     }
 
     if (this.currentGun.currentTimeBetweenAttacks > 0) {
-      console.log(this.currentGun.currentTimeBetweenAttacks);
       this.currentGun.currentTimeBetweenAttacks -= 1;
     }
   }
@@ -195,23 +193,21 @@ class Scene1 extends Phaser.Scene {
     lastWaveAmount = waveAmount;
   }
 
-shootBullet(pointer) {
-  if (this.currentGun.currentTimeBetweenAttacks > 0) 
-    return;
+  shootBullet(pointer) {
+    if (this.currentGun.currentTimeBetweenAttacks > 0) return;
 
-  this.currentGun.currentTimeBetweenAttacks = this.currentGun.timeBetweenAttacks;
-  this.bullet = new Bullet(
-    this,
-    pointer,
-    this.player.rotation,
-    house.house,
-    this.zombies,
-    this.currentGun
-  );
-  // setTimeout(() => {
-  //   this.bullet.die();
-  // }, this.currentGun.range);
-
+    this.currentGun.currentTimeBetweenAttacks = this.currentGun.timeBetweenAttacks;
+    this.bullet = new Bullet(
+      this,
+      pointer,
+      this.player.rotation,
+      house.house,
+      this.zombies,
+      this.currentGun
+    );
+    // setTimeout(() => {
+    //   this.bullet.die();
+    // }, this.currentGun.range);
   }
 }
 
