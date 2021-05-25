@@ -20,10 +20,11 @@ class Scene1 extends Phaser.Scene {
     this.load.image('floor', 'assets/floor.jpg');
     this.load.image('basicGun', 'assets/small_gun.png');
     this.load.image('shotgun', 'assets/Shotgun.png');
+    this.load.image('rifle', 'assets/rifle.png');
   }
 
   create() {
-    this.score = 3000;
+    this.score = 0;
 
     this.gameOver = false;
     this.speed = 250;
@@ -40,36 +41,21 @@ class Scene1 extends Phaser.Scene {
 
     this.guns = this.add.group();
 
-    this.basicGun = new Gun(this, 1, 400, 1000, 1, 270, 430, 'basicGun', 50, 0);
-    this.shotgun = new Gun(
-      this,
-      0.15,
-      400,
-      100,
-      3,
-      270,
-      500,
-      'shotgun',
-      50,
-      3000
-    );
+    this.basicGun = new Gun(this, 1, 400, 1000, 1, 270, 430, 'basicGun', 40, 0);
+    this.shotgun = new Gun(this, 0.15, 400, 100, 3, 270, 500, 'shotgun', 20, 3000);
+    this.rifle = new Gun(this, .7, 400, 1000, 1, 505, 430, 'rifle', 10, 8000);
 
     this.currentGun = this.basicGun;
 
     this.bullets = this.add.group();
 
-   
-    
-    
-    
-      console.log(this.currentGun.currentTimeBetweenAttacks);
-      this.input.on(
-        'pointerdown',
-        (pointer) => {
-          this.shootBullet(pointer);
-        },
-        this
-      );
+    this.input.on(
+      'pointerdown',
+      (pointer) => {
+        this.shootBullet(pointer);
+      },
+      this
+    );
 
     this.key_W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -154,7 +140,6 @@ class Scene1 extends Phaser.Scene {
     }
 
     if (this.currentGun.currentTimeBetweenAttacks > 0) {
-      console.log(this.currentGun.currentTimeBetweenAttacks);
       this.currentGun.currentTimeBetweenAttacks -= 1;
     }
   }
@@ -211,7 +196,7 @@ shootBullet(pointer) {
   // setTimeout(() => {
   //   this.bullet.die();
   // }, this.currentGun.range);
-
+  console
   }
 }
 
