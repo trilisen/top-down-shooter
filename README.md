@@ -1,6 +1,6 @@
 INSERT MANDATORY GIF
 
-# Project Title
+# Zombie Base Defender
 
 Text about the project and which JavaScript library you're using. This would also be a great place to link the game on Netlify.
 
@@ -44,10 +44,10 @@ Great job guys!
 
 Tested by the following people:
 
-1. Jane Doe
-2. John Doe
-3. Jane Doe
-4. John Doe
+1. Erik White
+2. Mark Mados
+3. Agnes Binett
+4. Jonathan Larsson
 
 Tested by the following muggles (non-coders):
 
