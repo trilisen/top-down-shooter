@@ -1,16 +1,17 @@
-INSERT MANDATORY GIF
+![](https://media.giphy.com/media/GQbNswkIXzlvi/giphy.gif)
 
 # Zombie Base Defender
 
-Text about the project and which JavaScript library you're using. This would also be a great place to link the game on Netlify.
+This game project was built using the Phaser 3 library. https://zombie-base-defender.netlify.app/
 
 # Installation
 
-Add the installation instructions.
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm run dev` for development server
 
 # Changelog
 
-- [#1 - Add a link to each pull request with a descriptive line.](#1)
 - https://github.com/trilisen/top-down-shooter/commit/6650552bd4ef27a4986eb3a18082e04299ca8cd5 -Setup and start on player controller.
 - https://github.com/trilisen/top-down-shooter/commit/6e07de9f62614d7d041f0c35864bf9b9ab3a984d -Update to player controller.
 - https://github.com/trilisen/top-down-shooter/commit/46fa78d662949b2194b6df8b053c15a9de19ca28 -Small changes to player.
